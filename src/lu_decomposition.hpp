@@ -81,10 +81,11 @@ Vector LU_solve(
 
     Vector x(N);
     for (int i = N-1; i >= 0; i--) {
-        x[i] = y[i]/LU[i][i];
+        x[i] = y[i];
         for (int j = i+1; j < N; j++) {
             x[i] -= LU[i][j]*y[j];
         }
+        x[i] /= LU[i][i];
     }
 
     return x;
