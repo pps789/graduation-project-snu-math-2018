@@ -50,7 +50,7 @@ Vector cholesky_solve(Matrix L, Vector b) {
     for (int i = N-1; i >= 0; i--) {
         x[i] = y[i];
         for (int j = i+1; j < N; j++) {
-            x[i] -= L[j][i]*y[j];
+            x[i] -= L[j][i]*x[j];
         }
         x[i] /= L[i][i];
     }
