@@ -73,7 +73,7 @@ Vector LU_solve(
 
     Vector y(N);
     for (int i = 0; i < N; i++) {
-        y[i] = b[i];
+        y[i] = Pb[i];
         for (int j = 0; j < i; j++) {
             y[i] -= LU[i][j]*y[j];
         }
