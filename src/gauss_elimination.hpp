@@ -5,7 +5,7 @@
 #include<utility>
 #include"helper.hpp"
 
-// Assume that Matrix is square, i.e. solution is always exist.
+// Assume that Matrix is square.
 template<typename Matrix, typename Vector>
 Vector gauss_elimination(Matrix A, Vector b) {
     const int N = A.size();
@@ -25,9 +25,15 @@ Vector gauss_elimination(Matrix A, Vector b) {
         }
     }
 
-    for (int i = N-1; i >= 0; i--) if (nonzero(A[i][i])) {
-        b[i] /= A[i][i];
-        for (int j = i-1; j >= 0; j--) b[j] -= A[j][i]*b[i];
+    for (int i = N-1; i >= 0; i--) {
+        if (nonzero(A[i][i])) {
+            b[i] /= A[i][i];
+            for (int j = i-1; j >= 0; j--) b[j] -= A[j][i]*b[i];
+        }
+        else if (nonzero(b[i])) {
+            // Singular case.
+            return Vector();
+        }
     }
     return b;
 }
