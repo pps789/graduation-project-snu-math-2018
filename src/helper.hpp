@@ -1,11 +1,11 @@
-#ifndef __HELPER__H__
-#define __HELPER__H__
+#ifndef SRC_HELPER_HPP_
+#define SRC_HELPER_HPP_
 
 #include<algorithm>
 const double DOUBLE_EPS = 1e-6;
 
-double nonzero(double x){
-    return std::abs(x)>DOUBLE_EPS;
+double nonzero(double x) {
+    return std::abs(x) > DOUBLE_EPS;
 }
 
-#endif
+#endif  // SRC_HELPER_HPP_
