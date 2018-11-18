@@ -10,13 +10,16 @@ template<typename Matrix, typename Vector>
 Vector gauss_elimination(Matrix A, Vector b) {
     const int N = A.size();
     for (int i = 0; i < N; i++) {
-        int t = -1;
-        for (int j = i; j < N; j++) if (A[j][i]) {
-            t = j;
-            break;
+        int t = i;
+        auto maxval = std::abs(A[i][i]);
+        for (int j = i+1; j < N; j++) {
+            if (std::abs(A[j][i]) > maxval) {
+                t = j;
+                maxval = std::abs(A[j][i]);
+            }
         }
-        if (t >= 0) {
-            std::swap(A[i], A[t]); std::swap(b[i], b[t]);
+        std::swap(A[i], A[t]); std::swap(b[i], b[t]);
+        if (nonzero(A[i][i])) {
             for (int j = i+1; j < N; j++) {
                 auto rate = A[j][i] / A[i][i];
                 for (int k = i; k < N; k++) A[j][k] -= A[i][k]*rate;
