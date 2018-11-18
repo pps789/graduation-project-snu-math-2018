@@ -33,3 +33,6 @@
 
 # Ycm
 .ycm_extra_conf.py
+
+# Etc
+*.swp
