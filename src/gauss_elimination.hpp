@@ -32,8 +32,7 @@ Vector gauss_elimination(Matrix A, Vector b) {
         if (nonzero(A[i][i])) {
             b[i] /= A[i][i];
             for (int j = i-1; j >= 0; j--) b[j] -= A[j][i]*b[i];
-        }
-        else if (nonzero(b[i])) {
+        } else if (nonzero(b[i])) {
             // Singular case.
             return Vector();
         }
