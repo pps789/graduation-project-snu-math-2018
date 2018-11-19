@@ -3,16 +3,19 @@
 
 #include<algorithm>
 #include<utility>
+#include<vector>
 #include"helper.hpp"
 
 // Assume that Matrix is square.
-template<typename Matrix, typename Vector>
-Vector gauss_elimination(Matrix A, Vector b) {
+template<typename T>
+std::vector<T> gauss_elimination(
+        std::vector<std::vector<T>> A,
+        std::vector<T> b) {
     const int N = A.size();
     for (int i = 0; i < N; i++) {
         int t = i;
-        auto maxval = std::abs(A[i][i]);
-        for (int j = i+1; j < N; j++) {
+        T maxval = 0;
+        for (int j = i; j < N; j++) {
             if (std::abs(A[j][i]) > maxval) {
                 t = j;
                 maxval = std::abs(A[j][i]);
@@ -34,7 +37,7 @@ Vector gauss_elimination(Matrix A, Vector b) {
             for (int j = i-1; j >= 0; j--) b[j] -= A[j][i]*b[i];
         } else if (nonzero(b[i])) {
             // Singular case.
-            return Vector();
+            return std::vector<T>();
         }
     }
     return b;

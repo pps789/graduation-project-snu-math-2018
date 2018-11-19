@@ -8,9 +8,9 @@
 
 // Assume that Matrix is square.
 // Returns (L-I+U, P).
-template<typename Matrix, typename Vector>
-std::pair<Matrix, std::vector<int>>
-LU_decomposition(Matrix A) {
+template<typename T>
+std::pair<std::vector<std::vector<T>>, std::vector<int>>
+LU_decomposition(std::vector<std::vector<T>> A) {
     const int N = A.size();
     std::vector<int> P(N);
 
@@ -20,13 +20,8 @@ LU_decomposition(Matrix A) {
     for (int i = 0; i < N; i++) {
         // Pivoting.
         int t = i;
-        auto maxval = A[i][i];
-        for (int k = 0; k < i; k++) {
-            maxval -= A[i][k]*A[k][i];
-        }
-        maxval = std::abs(maxval);
-
-        for (int j = i+1; j < N; j++) {
+        T maxval = 0;
+        for (int j = i; j < N; j++) {
             auto curval = A[j][i];
             for (int k = 0; k < i; k++) {
                 curval -= A[j][k]*A[k][i];
@@ -38,7 +33,8 @@ LU_decomposition(Matrix A) {
         }
 
         std::swap(A[i], A[t]); std::swap(P[i], P[t]);
-        if (!nonzero(A[i][i])) return {Matrix(), Vector()};
+        if (!nonzero(A[i][i]))
+            return {std::vector<std::vector<T>>(), std::vector<int>()};
 
         // Update U.
         for (int j = i; j < N; j++) {
@@ -59,19 +55,19 @@ LU_decomposition(Matrix A) {
     return {A, P};
 }
 
-template<typename Matrix, typename Vector>
-Vector LU_solve(
-        const std::pair<Matrix, std::vector<int>>& LUP,
-        const Vector& b) {
+template<typename T>
+std::vector<T> LU_solve(
+        const std::pair<std::vector<std::vector<T>>, std::vector<int>>& LUP,
+        const std::vector<T>& b) {
     const auto& LU = LUP.first;
     const auto& P = LUP.second;
     const int N = P.size();
-    Vector Pb(N);
+    std::vector<T> Pb(N);
     for (int i = 0; i < N; i++) {
         Pb[P[i]] = b[i];
     }
 
-    Vector y(N);
+    std::vector<T> y(N);
     for (int i = 0; i < N; i++) {
         y[i] = Pb[i];
         for (int j = 0; j < i; j++) {
@@ -79,7 +75,7 @@ Vector LU_solve(
         }
     }
 
-    Vector x(N);
+    std::vector<T> x(N);
     for (int i = N-1; i >= 0; i--) {
         x[i] = y[i];
         for (int j = i+1; j < N; j++) {
