@@ -30,7 +30,7 @@ std::vector<T> conjugate_gradient_method(
         for (int i = 0; i < N; i++) r[i] -= alpha*Ap[i];
         T rsnew = 0;
         for (int i = 0; i < N; i++) rsnew += r[i]*r[i];
-        if (rsnew < TOL*TOL) break;
+        if (rsnew < TOL*TOL) return x;
 
         for (int i = 0; i < N; i++) p[i] = r[i] + rsnew/rsold*p[i];
         rsold = rsnew;
