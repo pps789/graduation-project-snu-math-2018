@@ -8,10 +8,11 @@
 
 // Assume that Matrix is square, SPD.
 // Returns L.
-template<typename Matrix, typename Vector>
-Matrix cholesky_decomposition(Matrix A) {
+template<typename T>
+std::vector<std::vector<T>> cholesky_decomposition(
+        std::vector<std::vector<T>> A) {
     const int N = A.size();
-    Matrix L = A;
+    auto L = A;
 
     // Initialize.
     for (int i = 0; i < N; i++) for (int j = 0; j < N; j++) L[i][j] = 0;
@@ -33,10 +34,12 @@ Matrix cholesky_decomposition(Matrix A) {
     return L;
 }
 
-template<typename Matrix, typename Vector>
-Vector cholesky_solve(Matrix L, Vector b) {
+template<typename T>
+std::vector<T> cholesky_solve(
+        std::vector<std::vector<T>> L,
+        std::vector<T> b) {
     const int N = L.size();
-    Vector y(N);
+    std::vector<T> y(N);
 
     for (int i = 0; i < N; i++) {
         y[i] = b[i];
@@ -46,7 +49,7 @@ Vector cholesky_solve(Matrix L, Vector b) {
         y[i] /= L[i][i];
     }
 
-    Vector x(N);
+    std::vector<T> x(N);
     for (int i = N-1; i >= 0; i--) {
         x[i] = y[i];
         for (int j = i+1; j < N; j++) {
