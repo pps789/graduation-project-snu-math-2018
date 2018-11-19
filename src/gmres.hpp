@@ -34,7 +34,7 @@ std::vector<T> gmres(
         std::vector<T> w(N);
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                w[j] += A[i][j]*v[j];
+                w[i] += A[i][j]*v[j];
             }
         }
 
@@ -43,14 +43,15 @@ std::vector<T> gmres(
         for (int i = 0; i < M+1; i++) H[i].resize(M);
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
-                H[i].back() += w[j]*V[i][j];
+                H[i].back() += w[j]*V[j][i];
             }
             for (int j = 0; j < N; j++) {
-                w[j] -= H[i].back()*V[i][j];
+                w[j] -= H[i].back()*V[j][i];
             }
         }
         for (int i = 0; i < N; i++) H[M].back() += w[i]*w[i];
-        H[M].back() = std::sqrt(H[M]);
+        H[M].back() = std::sqrt(H[M].back());
+
         for (int i = 0; i < N; i++) v[i] = w[i]/H[M].back();
 
         // Least-square phase: use QR decomposition.
@@ -59,21 +60,21 @@ std::vector<T> gmres(
         auto y = QR_solve(QR, e);
 
         std::vector<T> x = x0;
-        for (int i = 0; i < M; i++) {
+        for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                x[j] += V[i][j]*y[j];
+                x[i] += V[i][j]*y[j];
             }
         }
 
         auto r = b;
         for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                r[j] -= A[i][j]*x[j];
+            for (int j = 0; j < N; j++) {
+                r[i] -= A[i][j]*x[j];
             }
         }
         T res = 0;
         for (int i = 0; i < N; i++) res += r[i]*r[i];
-        if (res < TOL*TOL) return x;
+        if (res < TOL*TOL || !nonzero(H[M].back())) return x;
     }
 }
 

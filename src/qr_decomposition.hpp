@@ -5,6 +5,7 @@
 #include<numeric>
 #include<utility>
 #include<vector>
+#include<cstdio>
 
 // Input matrix can be ractangle.
 template<typename T>
@@ -12,7 +13,7 @@ std::pair<std::vector<std::vector<T>>, std::vector<std::vector<T>>>
 QR_decomposition(std::vector<std::vector<T>> A) {
     // M: #(row), N: #(col)
     const int M = A.size();
-    const int N = A.back.size();
+    const int N = A.back().size();
     // Note that M >= N.
 
     // Q is not a matrix; it is a set of column vector.
@@ -37,7 +38,7 @@ QR_decomposition(std::vector<std::vector<T>> A) {
 
         Q.push_back(v);
         // Update j-th column of A
-        for (int j = i; j < M; j++) {
+        for (int j = i; j < N; j++) {
             T va = 0;
             for (int k = i; k < M; k++) {
                 va += v[k]*A[k][j];
@@ -69,7 +70,7 @@ std::vector<T> QR_solve(
             c += Q[i][j]*b[j];
         }
         for (int j = i; j < M; j++) {
-            b[j] -= 2*c*b[j];
+            b[j] -= 2*c*Q[i][j];
         }
     }
 
