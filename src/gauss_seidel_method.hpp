@@ -23,9 +23,9 @@ std::vector<T> gauss_seidel_method(
             for (int j = i+1; j < N; j++) {
                 s[i] -= A[i][j]*x[j];
             }
+            s[i] /= A[i][i];
         }
 
-        for (int i = 0; i < N; i++) s[i] /= A[i][i];
         T delta = 0;
         for (int i = 0; i < N; i++) delta += (x[i]-s[i])*(x[i]-s[i]);
         if (delta < TOL * TOL) return s;
