@@ -6,7 +6,7 @@
 
 // Assume that A is square.
 template<typename T>
-std::vector<T> jacobi_method(
+std::vector<T> gauss_seidel_method(
         const std::vector<std::vector<T>>& A,
         std::vector<T> b,
         T TOL) {
