@@ -11,11 +11,12 @@ std::vector<T> gradient_descent(
         std::vector<T> b,
         T TOL) {
     const int N = b.size();
-    std::vector<T> x(N), r = b, rs = 0;
+    std::vector<T> x(N), r = b;
+    T rs = 0;
     for (int i = 0; i < N; i++) rs += r[i]*r[i];
 
     while (1) {
-        std::vector<T> Ar;
+        std::vector<T> Ar(N);
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 Ar[i] += A[i][j]*r[j];
