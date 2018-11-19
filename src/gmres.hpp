@@ -8,7 +8,7 @@
 
 // Assume that A is square.
 template<typename T>
-std::vector<T> jacobi_method(
+std::vector<T> gmres(
         const std::vector<std::vector<T>>& A,
         std::vector<T> b,
         std::vector<T> x0,
