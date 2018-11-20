@@ -13,7 +13,7 @@
 #include"../src/sor.hpp"
 using namespace std;
 
-const int N = 163;  // Size of matrix!
+const int N = 16348;  // Size of matrix!
 
 int P[N + 1];
 int Find(int u) { return P[u] = (P[u] == u ? u : Find(P[u])); }
@@ -23,8 +23,9 @@ void Merge(int u, int v) {
 }
 
 int main() {
+    using T = double;
     for (int i = 0; i <= N; i++) P[i] = i;
-    vector<vector<double>> A(N + 1, vector<double>(N + 1));
+    vector<vector<T>> A(N + 1, vector<T>(N + 1));
     int merge_cnt = 0;
 
     for (int i = 0; i < N*N; i++) {
@@ -53,12 +54,12 @@ int main() {
     A.pop_back();
     for (auto& v : A) v.pop_back();
 
-    vector<double> b(N);
+    vector<T> b(N);
     for (int i = 0; i < N; i++) b[i] = rand();
 
     printf("Data Generated.\n");
 
-    const double TOL = 1e-6;
+    const T TOL = 1e-2;
 
     auto t = clock();
 
@@ -88,7 +89,7 @@ int main() {
     t = clock();
 
     // gmres
-    auto GMRES = gmres(A, b, vector<double>(N), TOL);
+    auto GMRES = gmres(A, b, vector<T>(N), TOL);
 
     printf("GMRES: %.6f\n", ((double)(clock()-t)) / CLOCKS_PER_SEC);
     t = clock();
@@ -120,7 +121,7 @@ int main() {
     t = clock();
 
     // SOR
-    auto SOR = sor(A, b, 0.5, TOL);
+    auto SOR = sor(A, b, (T)0.5, TOL);
 
     printf("SOR: %.6f\n", ((double)(clock()-t)) / CLOCKS_PER_SEC);
     t = clock();
