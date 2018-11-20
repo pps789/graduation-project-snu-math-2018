@@ -54,7 +54,9 @@ int main() {
     for (auto& v : A) v.pop_back();
 
     vector<double> b(N);
-    for (int i = 0; i < 5; i++) b[i] = rand();
+    for (int i = 0; i < N; i++) b[i] = rand();
+
+    printf("Data Generated.\n");
 
     const double TOL = 1e-6;
 
