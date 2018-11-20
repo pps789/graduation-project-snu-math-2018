@@ -13,7 +13,7 @@
 #include"../src/sor.hpp"
 using namespace std;
 
-const int N = 16348;  // Size of matrix!
+const int N = 163;  // Size of matrix!
 
 int P[N + 1];
 int Find(int u) { return P[u] = (P[u] == u ? u : Find(P[u])); }
@@ -88,7 +88,7 @@ int main() {
     t = clock();
 
     // gmres
-    auto GMRES = gmres(A, b, vector<double>(5), TOL);
+    auto GMRES = gmres(A, b, vector<double>(N), TOL);
 
     printf("GMRES: %.6f\n", ((double)(clock()-t)) / CLOCKS_PER_SEC);
     t = clock();
